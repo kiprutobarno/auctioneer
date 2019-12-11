@@ -16,8 +16,9 @@ notifications:
 
 before_script:
   - psql -c "CREATE ROLE admin LOGIN SUPERUSER PASSWORD 'admin123';"
-  - psql -c "CREATE DATABASE auctioneer;" -U admin
   - psql -c "CREATE USER admin WITH PASSWORD 'admin123';" -U admin
+  - psql -c "CREATE DATABASE auctioneer;" -U admin
+  
 
 script: node manageDB createUsersTable && npm test
 
