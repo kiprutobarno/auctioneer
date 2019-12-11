@@ -1,6 +1,7 @@
 import "@babel/polyfill";
 import express from "express";
 import bodyParser from "body-parser";
+import config from "../config";
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,6 +21,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.listen(4000, () => {
-  console.log("server running on port ", 4000);
+app.listen(config.PORT, () => {
+  console.log("server running on port", config.PORT);
 });
