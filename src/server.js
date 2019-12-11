@@ -2,6 +2,7 @@ import "@babel/polyfill";
 import express from "express";
 import bodyParser from "body-parser";
 import config from "../config";
+import users from "../src/controllers/users";
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,6 +21,8 @@ app.use((req, res, next) => {
   );
   next();
 });
+
+app.post("/register", users.register);
 
 app.listen(config.PORT, () => {
   console.log("server running on port", config.PORT);
