@@ -23,6 +23,7 @@ app.use((req, res, next) => {
 });
 
 app.post("/register", users.register);
+app.post("/login", users.login);
 
 app.listen(config.PORT, () => {
   console.log("server running on port", config.PORT);
