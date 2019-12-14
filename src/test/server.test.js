@@ -40,10 +40,10 @@ describe("Auctioneer", () => {
       chai
         .request(server)
         .post("/register")
-        .set("Accept", "application/json")
         .send(user)
         .end(done());
-      request(server)
+      chai
+        .request(server)
         .post("/login")
         .send((err, res) => {
           res.should.have.status(200);
