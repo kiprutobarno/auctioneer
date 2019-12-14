@@ -3,7 +3,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import config from "../config";
 import users from "../src/controllers/users";
-
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -26,7 +25,7 @@ app.post("/register", users.register);
 app.post("/login", users.login);
 
 app.listen(config.PORT, () => {
-  console.log("server running on port", config.PORT);
+  console.log(`server running on port ${config.PORT} `);
 });
 
 export default app;

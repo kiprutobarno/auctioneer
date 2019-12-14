@@ -1,22 +1,24 @@
 import "dotenv-config";
+import config from "../../config";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Pool } from "pg";
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const pool = new Pool({ connectionString: config.DATABASE_URL });
+console.log(config.DATABASE_URL);
 
+/**Class representing helper functions */
 class Helpers {
-  query = text => {
-    return new Promise((resolve, reject) => {
-      pool
-        .query(text)
-        .then(result => {
-          resolve(result);
-        })
-        .catch(err => {
-          reject(err);
-        });
-    });
+  /**
+   * @param {String} text
+   * @returns {Promise<QueryResult>}
+   */
+  query = async text => {
+    try {
+      return await pool.query(text);
+    } catch (error) {
+      return error;
+    }
   };
 
   /**
@@ -47,10 +49,9 @@ class Helpers {
    * @param {String} email
    * @returns {String}
    */
-  generateJsonWebToken = (id, email) => {
+  generateJsonWebToken = email => {
     const token = jwt.sign(
       {
-        userId: id,
         email: email
       },
       process.env.SECRET_KEY,

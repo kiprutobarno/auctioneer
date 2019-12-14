@@ -2,7 +2,7 @@ require("dotenv/config");
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL
+  connectionString: "postgres://admin:admin123@localhost:5432/auctioneer"
 });
 pool.on("connect", () => {
   console.log("...connected to database...");

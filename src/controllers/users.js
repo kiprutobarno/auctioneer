@@ -62,14 +62,14 @@ class Users {
       if (!rows[0]) {
         return res
           .status(401)
-          .send({ status: 401, message: "Wrong email address" });
+          .send({ status: 401, message: "Email not registered" });
       } else if (!helpers.comparePassword(password, rows[0].password)) {
         return res.status(401).send({ status: 401, message: "Wrong password" });
       } else {
         return res.status(200).send({
           status: 200,
           message: "Login successful",
-          token: helpers.generateJsonWebToken(rows[0].id, rows[0].email)
+          token: helpers.generateJsonWebToken(rows[0].email)
         });
       }
     } catch (error) {
