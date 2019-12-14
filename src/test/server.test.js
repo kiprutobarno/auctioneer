@@ -1,36 +1,52 @@
-import { expect } from "chai";
-import request from "supertest";
-import app from "../server";
+import chai from "chai";
+import http from "chai-http";
+import server from "../server";
+import database from "../utils/db";
+
+chai.use(http);
+chai.should();
+
+after(() => {
+  database.clear();
+});
 
 describe("Auctioneer", () => {
-  describe("GET /", () => {
-    it("responds with json", done => {
-      request(app)
-        .get("/")
-        .set("Accept", "application/json")
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          if (err) return done(err);
-          done();
-        });
-    });
-  });
   describe("POST /register", () => {
     let users = [
       { email: "a@gmail.com", password: "a123" },
-      { email: "b@gmail.com", password: "b123" }
+      { email: "b@gmail.com", password: "b123" },
+      { email: "c@gmail.com", password: "b123" }
     ];
-    it("should respond with a 201 status", done => {
+    it("user should register", done => {
       for (let i = 0; i < users.length; i++) {
-        request(app)
+        chai
+          .request(server)
           .post("/register")
           .send(users[i])
           .end((err, res) => {
-            expect(res.status).to.equal(201);
-            if (err) return done(err);
+            res.should.have.status(201);
           });
       }
       done();
+    });
+  });
+
+  describe("POST /login", () => {
+    let user = { email: "d@gmail.com", password: "b123" };
+
+    it("user should log in", done => {
+      chai
+        .request(server)
+        .post("/register")
+        .send(user)
+        .end(done());
+      chai
+        .request(server)
+        .post("/login")
+        .send((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
     });
   });
 });
