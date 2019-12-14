@@ -1,6 +1,5 @@
 import chai from "chai";
 import { expect } from "chai";
-// import request from "supertest";
 import http from "chai-http";
 import server from "../server";
 import database from "../utils/db";

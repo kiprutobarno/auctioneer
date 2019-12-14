@@ -5,6 +5,7 @@ node_js:
 env:
   global:
     - DATABASE_URL="postgres://admin:admin123@localhost:5432/auctioneer"
+    - NODE_ENV=test
 
 install: npm install
 
