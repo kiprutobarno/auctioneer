@@ -9,6 +9,7 @@ import database from "../utils/db";
 
 after(async () => {
   await database.clear();
+  server.close();
 });
 
 describe("Auctioneer", () => {
