@@ -24,10 +24,9 @@ class Database {
    * Truncate the database table
    * @returns {Promise}
    */
-  clear = async () => {
-    const client = await pool.connect();
+  clear = () => {
     try {
-      return await client.query(`TRUNCATE users RESTART IDENTITY CASCADE;`);
+      return pool.query(`TRUNCATE users RESTART IDENTITY CASCADE;`);
     } catch (error) {
       console.log(error);
     }

@@ -4,7 +4,7 @@
   "description": "This is a repo for Auctioneer application backend",
   "main": "server.js",
   "scripts": {
-    "test": "NODE_ENV=testing mocha --recursive --require @babel/register --require @babel/polyfill --exit ./src/test/*.test.js",
+    "test": "NODE_ENV=test mocha --recursive --require @babel/register --require @babel/polyfill --exit ./src/test/*.test.js",
     "start": "nodemon --require @babel/register --require @babel/register ./src/server.js",
     "postinstall": "node manageDB createUsersTable && node manageDB dropUsersTable"
   },
