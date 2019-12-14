@@ -4,7 +4,7 @@ node_js:
 
 env:
   global:
-    - DATABASE_URL="postgres://admin:admin123@localhost:5432/auctioneer"
+    - DATABASE_URL="postgres://admin:admin123@localhost:5432/auctioneer_test"
 
 install: npm install
 
@@ -15,9 +15,8 @@ notifications:
   email: false
 
 before_script:
-  - psql -c "CREATE DATABASE auctioneer;" -U postgres
+  - psql -c "CREATE DATABASE auctioneer_test;" -U postgres
   - psql -c "CREATE USER admin WITH PASSWORD 'admin123';" -U postgres
-  
 
 script: node manageDB createUsersTable && npm test
 
