@@ -1,15 +1,15 @@
 import chai from "chai";
 import { expect } from "chai";
-import request from "supertest";
+// import request from "supertest";
+import http from "chai-http";
 import server from "../server";
 import database from "../utils/db";
 
-// chai.use(http);
-// chai.should();
+chai.use(http);
+chai.should();
 
 after(async () => {
   await database.clear();
-  server.close();
 });
 
 describe("Auctioneer", () => {
@@ -21,12 +21,13 @@ describe("Auctioneer", () => {
     ];
     it("user should register", done => {
       for (let i = 0; i < users.length; i++) {
-        request(server)
+        chai
+          .request(server)
           .post("/register")
           .set("Accept", "application/json")
           .send(users[i])
           .end((err, res) => {
-            expect(res.status).to.equal(201);
+            res.should.have.status(201);
           });
       }
       done();
@@ -37,7 +38,8 @@ describe("Auctioneer", () => {
     let user = { email: "a@gmail.com", password: "b123" };
 
     it("user should log in", done => {
-      request(server)
+      chai
+        .request(server)
         .post("/register")
         .set("Accept", "application/json")
         .send(user)
@@ -45,7 +47,7 @@ describe("Auctioneer", () => {
       request(server)
         .post("/login")
         .send((err, res) => {
-          expect(res.status).to.equal(200);
+          res.should.have.status(200);
           done();
         });
     });

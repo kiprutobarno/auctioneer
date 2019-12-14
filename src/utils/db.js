@@ -31,7 +31,7 @@ class Database {
     } catch (error) {
       console.log(error);
     }
-    client.release(true);
+    // client.release(true);
   };
 
   dropUsersTable = async () => {
