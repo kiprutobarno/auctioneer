@@ -5,7 +5,6 @@ switch (process.env.NODE_ENV) {
   case "production":
     config.PORT = process.env.PORT;
     config.DATABASE_URL = process.env.DATABASE_URL;
-
     break;
   case "development":
     config.PORT = process.env.PORT;

@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 import { Pool } from "pg";
 
 const pool = new Pool({ connectionString: config.DATABASE_URL });
-console.log(config.DATABASE_URL);
 
 /**Class representing helper functions */
 class Helpers {
