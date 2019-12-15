@@ -49,7 +49,8 @@ const createOwnersTable = () => {
                           id SERIAL PRIMARY KEY,
                           firstName VARCHAR(50) NOT NULL,
                           lastName VARCHAR(50) NOT NULL,
-                          createdBy INTEGER REFERENCES users(id),
+                          email VARCHAR(50) UNIQUE NOT NULL,
+                          createdBy VARCHAR(50) REFERENCES users(email),
                           dateCreated TIMESTAMP,
                           dateModified TIMESTAMP)`;
   pool

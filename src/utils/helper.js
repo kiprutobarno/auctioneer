@@ -48,9 +48,10 @@ class Helpers {
    * @param {String} email
    * @returns {String}
    */
-  generateJsonWebToken = email => {
+  generateJsonWebToken = (id, email) => {
     const token = jwt.sign(
       {
+        id: id,
         email: email
       },
       process.env.SECRET_KEY,
