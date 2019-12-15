@@ -49,7 +49,7 @@ const createOwnersTable = () => {
                           id SERIAL PRIMARY KEY,
                           firstName VARCHAR(50) NOT NULL,
                           lastName VARCHAR(50) NOT NULL,
-                          createdBy INTEGER REFERENCES users(id)
+                          createdBy INTEGER REFERENCES users(id),
                           dateCreated TIMESTAMP,
                           dateModified TIMESTAMP)`;
   pool
@@ -83,7 +83,7 @@ const createCategoriesTable = () => {
   const queryText = `CREATE TABLE IF NOT EXISTS categories(
                           id SERIAL PRIMARY KEY,
                           categoryName VARCHAR(50) NOT NULL,
-                          createdBy INTEGER REFERENCES users(id)
+                          createdBy INTEGER REFERENCES users(id),
                           dateCreated TIMESTAMP,
                           dateModified TIMESTAMP)`;
   pool
@@ -119,7 +119,7 @@ const createItemsTable = () => {
                           categoryId INTEGER REFERENCES categories(id),
                           ownerId INTEGER REFERENCES owners(id),
                           itemName VARCHAR(50) NOT NULL,
-                          createdBy INTEGER REFERENCES users(id)
+                          createdBy INTEGER REFERENCES users(id),
                           dateCreated TIMESTAMP,
                           dateModified TIMESTAMP)`;
   pool
