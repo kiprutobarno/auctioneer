@@ -18,24 +18,34 @@ class Users {
       return res.status(400).send({ message: "Some values are missing" });
     }
     if (!helpers.isEmailValid(email)) {
-      return res.status(400).send({ message: "Please use a valid email" });
+      return res.status(400).send({ message: "Please enter a valid email" });
     }
 
     const hashedPassword = helpers.hashPassword(password);
 
     try {
-      await helpers.query(
-        user.createUser(email, hashedPassword, dateCreated, dateModified)
-      );
       let { rows } = await helpers.query(user.getUser(email));
-      return res.status(201).send({
-        status: 201,
-        message: "User successfully created",
-        user: rows[0],
-        token: helpers.generateJsonWebToken(rows[0].id, rows[0].email)
-      });
+      if (rows[0]) {
+        return res
+          .status(409)
+          .send({ statusCode: 409, message: "Email already registered" });
+      } else {
+        await helpers.query(
+          user.createUser(email, hashedPassword, dateCreated, dateModified)
+        );
+        let { rows } = await helpers.query(user.getUser(email));
+        return res.status(201).send({
+          status: 201,
+          message: "User successfully created",
+          user: rows[0]
+        });
+      }
     } catch (error) {
-      return res.status(400).send({ message: "error", error: error });
+      if (error.routine === "_bt_check_unique") {
+        return res
+          .status(409)
+          .send({ statusCode: 409, message: "Email already registered" });
+      }
     }
   };
 

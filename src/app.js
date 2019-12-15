@@ -2,9 +2,12 @@ import "@babel/polyfill";
 import express from "express";
 import bodyParser from "body-parser";
 import config from "../config";
-import users from "../src/controllers/users";
+import register from "./routes/register";
+import login from "./routes/login";
 
 const app = express();
+const prefix = config.api.prefix;
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -22,8 +25,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post("/register", users.register);
-app.post("/login", users.login);
+app.use(prefix, register);
+app.use(prefix, login);
 
 app.listen(config.PORT, () => {
   console.log(`server running on port ${config.PORT} `);
