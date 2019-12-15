@@ -79,14 +79,23 @@ class Users {
         return res.status(200).send({
           status: 200,
           message: "Login successful",
-          token: helpers.generateJsonWebToken(rows[0].email)
+          token: helpers.generateJsonWebToken(rows[0].id, rows[0].email)
         });
       }
     } catch (error) {
-      res.status(400).send({ status: 400, message: "Error" });
-      return;
+      return res.status(400).send({ status: 400, message: "Error" });
     }
   };
+
+  // getUserId = async (req, res) => {
+  //   const token = req.headers["authorization"].replace("Bearer ", "");
+  //   return res.status(200).send({token:token})
+  //   // try {
+  //   //   const decoded = await jwt.verify(token, process.env.SECRET_KEY);
+  //   //   console.log(decoded);
+  //   // } catch (error) {}
+  //   return token;
+  // };
 }
 const users = new Users();
 export default users;

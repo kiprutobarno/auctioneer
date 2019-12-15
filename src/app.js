@@ -2,18 +2,15 @@ import "@babel/polyfill";
 import express from "express";
 import bodyParser from "body-parser";
 import config from "../config";
-import register from "./routes/register";
-import login from "./routes/login";
+import users from "./routes/users";
+import auth from "../src/middleware/Auth";
+import owners from "./routes/owners";
 
 const app = express();
 const prefix = config.api.prefix;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-app.get("/", (req, res) => {
-  res.json({ message: "Server started successfully" });
-});
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "");
@@ -25,8 +22,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(prefix, register);
-app.use(prefix, login);
+/**Unprotected routes */
+app.use(prefix, users);
+
+/**Protected routes */
+app.use(prefix, auth.verify, owners);
 
 app.listen(config.PORT, () => {
   console.log(`server running on port ${config.PORT} `);
