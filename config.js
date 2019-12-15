@@ -1,5 +1,10 @@
 import "dotenv/config";
-const config = {};
+const config = {
+  api: {
+    prefix: `^/api/v[1-9]`,
+    version: [1]
+  }
+};
 
 switch (process.env.NODE_ENV) {
   case "production":
