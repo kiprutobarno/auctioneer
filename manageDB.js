@@ -43,6 +43,120 @@ const dropUsersTable = () => {
     });
 };
 
-module.exports = { createUsersTable, dropUsersTable };
+/** Create owners table */
+const createOwnersTable = () => {
+  const queryText = `CREATE TABLE IF NOT EXISTS owners(
+                          id SERIAL PRIMARY KEY,
+                          firstName VARCHAR(50) NOT NULL,
+                          lastName VARCHAR(50) NOT NULL,
+                          createdBy INTEGER REFERENCES users(id)
+                          dateCreated TIMESTAMP,
+                          dateModified TIMESTAMP)`;
+  pool
+    .query(queryText)
+    .then(results => {
+      console.log("...owners table succcessfully created...");
+      pool.end();
+    })
+    .catch(err => {
+      console.log(err);
+      pool.end();
+    });
+};
+
+const dropOwnersTable = () => {
+  const dropTableQuery = `DROP TABLE IF EXISTS owners`;
+  pool
+    .query(dropTableQuery)
+    .then(results => {
+      console.log("....owners table succcessfully dropped....");
+      pool.end();
+    })
+    .catch(err => {
+      console.log(err);
+      pool.end();
+    });
+};
+
+/** Create owners table */
+const createCategoriesTable = () => {
+  const queryText = `CREATE TABLE IF NOT EXISTS categories(
+                          id SERIAL PRIMARY KEY,
+                          categoryName VARCHAR(50) NOT NULL,
+                          createdBy INTEGER REFERENCES users(id)
+                          dateCreated TIMESTAMP,
+                          dateModified TIMESTAMP)`;
+  pool
+    .query(queryText)
+    .then(results => {
+      console.log("...categories table succcessfully created...");
+      pool.end();
+    })
+    .catch(err => {
+      console.log(err);
+      pool.end();
+    });
+};
+
+const dropCategoriesTable = () => {
+  const dropTableQuery = `DROP TABLE IF EXISTS categories`;
+  pool
+    .query(dropTableQuery)
+    .then(results => {
+      console.log("....categories table succcessfully dropped....");
+      pool.end();
+    })
+    .catch(err => {
+      console.log(err);
+      pool.end();
+    });
+};
+
+/** Create items table */
+const createItemsTable = () => {
+  const queryText = `CREATE TABLE IF NOT EXISTS items(
+                          id SERIAL PRIMARY KEY,
+                          categoryId INTEGER REFERENCES categories(id),
+                          ownerId INTEGER REFERENCES owners(id),
+                          itemName VARCHAR(50) NOT NULL,
+                          createdBy INTEGER REFERENCES users(id)
+                          dateCreated TIMESTAMP,
+                          dateModified TIMESTAMP)`;
+  pool
+    .query(queryText)
+    .then(results => {
+      console.log("...items table succcessfully created...");
+      pool.end();
+    })
+    .catch(err => {
+      console.log(err);
+      pool.end();
+    });
+};
+
+const dropItemsTable = () => {
+  const dropTableQuery = `DROP TABLE IF EXISTS items`;
+  pool
+    .query(dropTableQuery)
+    .then(results => {
+      console.log("....items table succcessfully dropped....");
+      pool.end();
+    })
+    .catch(err => {
+      console.log(err);
+      pool.end();
+    });
+};
+
+module.exports = {
+  createUsersTable,
+  createOwnersTable,
+  createItemsTable,
+  createCategoriesTable,
+  dropUsersTable,
+  dropOwnersTable,
+  dropCategoriesTable,
+  dropItemsTable
+};
 
 require("make-runnable");
