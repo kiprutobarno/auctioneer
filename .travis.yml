@@ -21,6 +21,7 @@ before_script:
 
 script: node manageDB createUsersTable && node manageDB createOwnersTable && node manageDB createCategoriesTable && node manageDB createItemsTable && npm test
 
+
 cache:
   directories:
     - "node_modules"
