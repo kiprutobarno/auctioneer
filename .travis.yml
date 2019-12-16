@@ -18,9 +18,8 @@ notifications:
 before_script:
   - psql -c "CREATE DATABASE auctioneer;" -U postgres
   - psql -c "CREATE USER admin WITH PASSWORD 'admin123';" -U postgres
-  "node manageDB createUsersTable && node manageDB createOwnersTable && node manageDB createCategoriesTable && node manageDB createItemsTable"
 
-script: npm test
+script: node manageDB createUsersTable && npm test
 
 cache:
   directories:
