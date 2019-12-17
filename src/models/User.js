@@ -11,14 +11,14 @@ class User {
   };
 
   getAllUsers = () => {
-    return `SELECT * FROM users`;
+    return `SELECT * FROM "users"`;
   };
 
   /**
    * @param {String} email
    */
   getUser = email => {
-    return `SELECT * FROM users WHERE email='${email}'`;
+    return `SELECT * FROM "users" WHERE email='${email}'`;
   };
 }
 
