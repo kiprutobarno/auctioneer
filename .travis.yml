@@ -27,7 +27,3 @@ script:node manageDB createUsersTable && node createOwnersTable && node manageDB
 cache:
   directories:
     - "node_modules"
-    - "test"
-branches:
-  only:
-    - develop
