@@ -21,7 +21,7 @@ before_script:
   - psql -c "CREATE DATABASE auctioneer_test;" -U postgres
 
 
-script:node manageDB createUsersTable && createOwnersTable && node manageDB createCategoriesTable && node manageDB createItemsTable && npm test
+script:node manageDB createUsersTable && node createOwnersTable && node manageDB createCategoriesTable && node manageDB createItemsTable && npm test
 
 
 cache:
