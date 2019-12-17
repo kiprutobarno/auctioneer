@@ -6,6 +6,8 @@ env:
   global:
     - DATABASE_URL="postgres://postgres@localhost:5432/auctioneer_test"
     - NODE_ENV=test
+    - PORT=4000
+    - SECRET_KEY="superpower"
 
 install: npm install
 
