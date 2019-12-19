@@ -8,6 +8,7 @@ import owners from "./routes/owners";
 import cors from "cors";
 
 const app = express();
+console.log(config);
 const prefix = config.api.prefix;
 
 app.use(bodyParser.urlencoded({ extended: false }));

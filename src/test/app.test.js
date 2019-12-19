@@ -1,9 +1,13 @@
 import "dotenv/config";
+import config from "../../config";
 import chai from "chai";
 import http from "chai-http";
 import app from "../app";
 import database from "../utils/db";
 
+process.env.NODE_ENV = "test";
+console.log(config);
+console.log(app);
 chai.use(http);
 chai.should();
 
