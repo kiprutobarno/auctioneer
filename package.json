@@ -4,7 +4,7 @@
   "description": "This is a repo for Auctioneer application backend",
   "main": "app.js",
   "scripts": {
-    "test": "mocha --recursive --require @babel/register --require @babel/polyfill --exit ./src/test/*.test.js --timeout 30000 ",
+    "test": "cross-env NODE_ENV=test mocha --recursive --require @babel/register --require @babel/polyfill --exit ./src/test/*.test.js --timeout 30000 ",
     "start": "nodemon --require @babel/register --require @babel/register ./src/app.js",
     "postinstall": "node manageDB createUsersTable && node manageDB dropUsersTable"
   },
@@ -40,6 +40,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "cors": "^2.8.5",
+    "cross-env": "^6.0.3",
     "dotenv-config": "^0.1.1",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
