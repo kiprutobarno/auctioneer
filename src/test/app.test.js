@@ -1,11 +1,14 @@
+import "dotenv/config";
 import chai from "chai";
 import http from "chai-http";
 import app from "../app";
 import database from "../utils/db";
 
+process.env.NODE_ENV = "test";
+
 chai.use(http);
 chai.should();
-console.log(app);
+
 describe("Auctioneer", () => {
   beforeEach(done => {
     database.clear();
