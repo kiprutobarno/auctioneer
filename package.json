@@ -4,9 +4,8 @@
   "description": "This is a repo for Auctioneer application backend",
   "main": "app.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --recursive --require @babel/register --require @babel/polyfill --exit ./src/test/*.test.js --timeout 30000  --env NODE_ENV=test",
-    "start": "nodemon --require @babel/register --require @babel/register ./src/app.js",
-    "postinstall": "node manageDB createUsersTable && node manageDB dropUsersTable"
+    "test": "mocha --recursive --require @babel/register --require @babel/polyfill --exit ./src/test/*.test.js --timeout 30000s",
+    "start": "nodemon --require @babel/register --require @babel/register ./src/app.js"
   },
   "repository": {
     "type": "git",
