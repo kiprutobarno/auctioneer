@@ -9,7 +9,7 @@ import cors from "cors";
 
 const app = express();
 const prefix = config.api.prefix;
-
+console.log(config);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
