@@ -5,7 +5,7 @@ import database from "../utils/db";
 
 chai.use(http);
 chai.should();
-
+console.log(app);
 describe("Auctioneer", () => {
   beforeEach(done => {
     database.clear();
