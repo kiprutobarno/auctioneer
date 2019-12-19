@@ -6,7 +6,7 @@ node_js:
 env:
   global:
     - NODE_ENV=test
-    - DATABASE_URL="postgres://admin:admin123@localhost:5432/auctioneer_test"
+    - TEST_DATABASE_URL="postgres://admin:admin123@localhost:5432/auctioneer_test"
     - PORT=4000
     - SECRET_KEY="superpower"
 
