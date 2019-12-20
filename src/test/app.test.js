@@ -10,7 +10,7 @@ chai.use(http);
 chai.should();
 
 describe("Auctioneer", () => {
-  beforeEach(done => {
+  before(done => {
     database.clear();
     done();
   });
