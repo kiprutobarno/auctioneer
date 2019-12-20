@@ -9,32 +9,23 @@ pool.on("connect", () => {
 });
 
 /** Create users table */
-const createUsersTable = async () => {
+const createUsersTable = () => {
   const queryText = `CREATE TABLE IF NOT EXISTS users(
                           id SERIAL PRIMARY KEY,
                           email VARCHAR(50) UNIQUE NOT NULL,
                           password VARCHAR(100) NOT NULL,
                           dateCreated TIMESTAMP,
                           dateModified TIMESTAMP)`;
-
-  try {
-    await pool.query(queryText);
-    console.log("...users table succcessfully created...");
-    pool.end();
-  } catch (error) {
-    console.log(err);
-    pool.end();
-  }
-  // pool
-  //   .query(queryText)
-  //   .then(results => {
-  //     console.log("...users table succcessfully created...");
-  //     pool.end();
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //     pool.end();
-  //   });
+  pool
+    .query(queryText)
+    .then(results => {
+      console.log("...users table succcessfully created...");
+      pool.end();
+    })
+    .catch(err => {
+      console.log(err);
+      pool.end();
+    });
 };
 
 /**Drop users table */
