@@ -17,7 +17,8 @@ switch (process.env.NODE_ENV) {
     break;
   case "test":
     config.PORT = process.env.PORT;
-    config.DATABASE_URL = process.env.TEST_DATABASE_URL;
+    config.DATABASE_URL =
+      "postgres://admin:admin123@localhost:5432/auctioneer_test";
     break;
   default:
     config.PORT = process.env.PORT || 4000;
