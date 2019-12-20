@@ -1,57 +1,65 @@
 import "dotenv/config";
+import { expect } from "chai";
 import chai from "chai";
 import http from "chai-http";
 import app from "../app";
 import database from "../utils/db";
 
-console.log(app);
-
 chai.use(http);
 chai.should();
 
 describe("Auctioneer", () => {
-  // before(done => {
-  //   database.clear();
-  //   done();
-  // });
+  /* Before hook*/
+  before(async () => {
+    await database.clear();
+  });
+
+  /** Test register owner endpoint */
   describe("POST api/v1/register", () => {
     let users = [
       { email: "a@gmail.com", password: "a123" },
       { email: "b@gmail.com", password: "b123" },
       { email: "c@gmail.com", password: "b123" }
     ];
-    it("user should register", done => {
-      for (let i = 0; i < users.length; i++) {
-        chai
-          .request(app)
-          .post("/api/v1/register")
-          .send(users[i])
-          .end((err, res) => {
-            res.should.have.status(201);
-          });
+    it("user should register", async () => {
+      try {
+        for (let i = 0; i < users.length; i++) {
+          let { body } = await chai
+            .request(app)
+            .post("/api/v1/register")
+            .send(users[i]);
+          expect(body).to.have.status(201);
+        }
+      } catch (error) {
+        console.log(error);
       }
-      done();
     });
   });
 
+  /** Test user login endpoint */
   describe("POST /api/v1/login", () => {
     let user = { email: "d@gmail.com", password: "b123" };
 
-    it("user should log in", done => {
-      chai
-        .request(app)
-        .post("/api/v1/register")
-        .send(user)
-        .end(done());
-      chai
-        .request(app)
-        .post("/api/v1/login")
-        .send((err, res) => {
-          res.should.have.status(200);
-          done();
-        });
+    it("user should log in", async () => {
+      try {
+        await chai
+          .request(app)
+          .post("/api/v1/register")
+          .send(user);
+        let { body, token } = await chai
+          .request(app)
+          .post("/api/v1/login")
+          .send(user);
+
+        /**tests */
+        expect(body).to.have.status(200);
+      } catch (error) {
+        console.log(error);
+      }
     });
   });
+
+  /** Test create owner endpoint */
   describe("POST, /api/v1/owners", () => {
     let owner = {
       firstName: "John",
@@ -62,36 +70,36 @@ describe("Auctioneer", () => {
     };
     let user = { email: "e@gmail.com", password: "b123" };
 
-    it("should authorize user and then create an owner", done => {
-      /** Register test user */
-      chai
-        .request(app)
-        .post("/api/v1/register")
-        .send(user)
-        .end((err, res) => {
-          /** Login  test user */
-          chai
-            .request(app)
-            .post("/api/v1/login")
-            .send(user)
-            .end((err, res) => {
-              /** Authorize test user */
-              chai
-                .request(app)
-                .post("/api/v1/owners")
-                .set("Authorization", "Bearer " + res.body.token)
-                .send(owner)
-                .end((err, res) => {
-                  /** Create test owner */
-                  res.should.have.status(201);
-                  res.body.should.have.property("message");
-                  done();
-                });
-            });
-        });
+    it("should authorize user and then create an owner", async () => {
+      try {
+        /** Register test user */
+        await chai
+          .request(app)
+          .post("/api/v1/register")
+          .send(user);
+
+        /* Login test user*/
+        let { body } = await chai
+          .request(app)
+          .post("/api/v1/login")
+          .send(user);
+
+        /* Set token and create owner */
+        let created = await chai
+          .request(app)
+          .post("/api/v1/owners")
+          .set("Authorization", "Bearer " + body.token)
+          .send(owner);
+
+        /**tests */
+        expect(created.body).to.have.status(201);
+      } catch (error) {
+        console.log(error);
+      }
     });
   });
 
+  /** Test get owners endpoint */
   describe("GET, /api/v1/owners", () => {
     let owner = {
       firstName: "John",
@@ -102,40 +110,38 @@ describe("Auctioneer", () => {
     };
     let user = { email: "e@gmail.com", password: "b123" };
 
-    it("should authorize user and then get owner records", done => {
-      /** Register test user */
-      chai
-        .request(app)
-        .post("/api/v1/register")
-        .send(user)
-        .end((err, res) => {
-          /** Login test user */
-          chai
-            .request(app)
-            .post("/api/v1/login")
-            .send(user)
-            .end((err, res) => {
-              /** Authorize test user */
-              let token = res.body.token;
-              chai
-                .request(app)
-                .post("/api/v1/owners")
-                .set("Authorization", "Bearer " + token)
-                .send(owner)
-                .end((err, res) => {
-                  /** Get test users records */
-                  chai
-                    .request(app)
-                    .get("/api/v1/owners")
-                    .set("Authorization", "Bearer " + token)
-                    .end((err, res) => {
-                      res.should.have.status(200);
-                      res.body.should.have.property("message");
-                      done();
-                    });
-                });
-            });
-        });
+    it("should authorize user and then get owner records", async () => {
+      try {
+        /** Register test user */
+        await chai
+          .request(app)
+          .post("/api/v1/register")
+          .send(user);
+
+        /*User login */
+        let { body } = await chai
+          .request(app)
+          .post("/api/v1/login")
+          .send(user);
+
+        /* Create owner */
+        await chai
+          .request(app)
+          .post("/api/v1/owners")
+          .set("Authorization", "Bearer " + body.token)
+          .send(owner);
+
+        /* Get owner */
+        let owners = await chai
+          .request(app)
+          .get("/api/v1/owners")
+          .set("Authorization", "Bearer " + body.token);
+
+        /**tests */
+        expect(owners.body).to.have.status(200);
+      } catch (error) {
+        console.log(error);
+      }
     });
   });
 });
