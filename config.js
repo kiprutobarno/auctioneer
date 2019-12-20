@@ -15,7 +15,7 @@ switch (process.env.NODE_ENV) {
     config.PORT = process.env.PORT;
     config.DATABASE_URL = process.env.DATABASE_URL;
     break;
-  case "testing":
+  case "test":
     config.PORT = process.env.PORT;
     config.DATABASE_URL = process.env.TEST_DATABASE_URL;
     break;
