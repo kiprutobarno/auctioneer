@@ -1,27 +1,17 @@
 import "@babel/polyfill";
 import express from "express";
 import bodyParser from "body-parser";
+import cors from "cors";
 import config from "../config";
 import users from "./routes/users";
-import auth from "../src/middleware/Auth";
 import owners from "./routes/owners";
-import cors from "cors";
+import auth from "../src/middleware/Auth";
 
 const app = express();
 const prefix = config.api.prefix;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 app.use(cors());
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-type");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PATCH, PUT, DELETE"
-  );
-  next();
-});
 
 /**Unprotected routes */
 app.use(prefix, users);
