@@ -1,27 +1,25 @@
 import "dotenv/config";
-import { expect } from "chai";
-import chai from "chai";
+import chai, { expect } from "chai";
 import http from "chai-http";
 import app from "../app";
-import database from "../helpers/db";
+import db from "../helpers/db";
 
 chai.use(http);
-chai.should();
 
 describe("Auctioneer", () => {
   /* Before hook*/
   before(async () => {
-    await database.createUsersTable();
-    await database.createOwnersTable();
-    await database.createCategoriesTable();
-    await database.createItemsTable();
+    await db.createUsersTable();
+    await db.createOwnersTable();
+    await db.createCategoriesTable();
+    await db.createItemsTable();
   });
   /** After hook */
   after(async () => {
-    await database.dropItemsTable();
-    await database.dropCategoriesTable();
-    await database.dropOwnersTable();
-    await database.dropUsersTable();
+    await db.dropItemsTable();
+    await db.dropCategoriesTable();
+    await db.dropOwnersTable();
+    await db.dropUsersTable();
   });
 
   /** Test register owner endpoint */
