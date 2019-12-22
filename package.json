@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "export NODE_ENV=test && mocha --recursive --require @babel/register --require @babel/polyfill --exit ./test/*.test.js --timeout 3000",
-    "start": "nodemon --require @babel/register --require @babel/register ./src/app.js"
+    "start": "nodemon --require @babel/register --require @babel/register ./app.js"
   },
   "repository": {
     "type": "git",
