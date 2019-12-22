@@ -2,8 +2,8 @@ import "dotenv/config";
 import { expect } from "chai";
 import chai from "chai";
 import http from "chai-http";
-import app from "../src/app";
-import database from "../src/utils/db";
+import app from "../app";
+import database from "../helpers/db";
 
 chai.use(http);
 chai.should();

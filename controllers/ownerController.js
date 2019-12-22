@@ -1,8 +1,10 @@
 import "dotenv-config";
 import moment from "moment";
 import owner from "../models/Owner";
-import helpers from "../utils/helper";
 import jwt from "jsonwebtoken";
+import response from "../helpers/apiResponses";
+import validator from "../helpers/validators";
+import db from "../helpers/db";
 
 class Owners {
   createOwner = async (req, res) => {
@@ -15,19 +17,17 @@ class Owners {
     const dateCreated = moment().format();
     const dateModified = moment().format();
     if (!firstName || !lastName || !email) {
-      return res.status(400).send({ status: 400, message: "Missing values" });
+      response.errorMessage(res, 400, "Some values are missing");
     }
-    if (!helpers.isEmailValid(email)) {
-      return res.status(400).send({ message: "Please enter a valid email" });
+    if (!validator.isEmailValid(email)) {
+      response.errorMessage(res, 400, "Please enter a valid email");
     }
     try {
-      let { rows } = await helpers.query(owner.getOwner(email));
+      let { rows } = await db.query(owner.getOwner(email));
       if (rows[0]) {
-        return res
-          .status(409)
-          .send({ statusCode: 409, message: "Owner already registered" });
+        response.errorMessage(res, 409, "Owner already registered");
       } else {
-        await helpers.query(
+        await db.query(
           owner.createOwner(
             firstName,
             lastName,
@@ -37,32 +37,32 @@ class Owners {
             dateModified
           )
         );
-        let { rows } = await helpers.query(owner.getOwner(email));
-
-        return res.status(201).send({
+        let { rows } = await db.query(owner.getOwner(email));
+        response.successWithData(res, 201, {
           status: 201,
-          message: "Owner created successfully",
+          message: "User successfully created",
           owner: rows[0]
         });
       }
-    } catch (error) {}
+    } catch (error) {
+      response.errorMessage(res, 400, error);
+    }
   };
 
   getOwners = async (req, res) => {
     try {
-      let { rows } = await helpers.query(owner.getOwners());
+      let { rows } = await db.query(owner.getOwners());
       if (Object.keys(rows).length === 0) {
-        return res.status(404).send({
-          status: 404,
-          message: "No owner records found"
-        });
+        response.errorMessage(res, 404, "No owner records found");
       }
-      return res.status(200).send({
+      response.successWithData(res, 200, {
         status: 200,
         message: "Success",
         owners: rows
       });
-    } catch (error) {}
+    } catch (error) {
+      response.errorMessage(res, 400, error);
+    }
   };
 }
 

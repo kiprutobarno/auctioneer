@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import config from "../../config";
+import config from "../config";
 
 const pool = new Pool({ connectionString: config.DATABASE_URL });
 
@@ -110,6 +110,18 @@ class Database {
       return await pool.query(`TRUNCATE users RESTART IDENTITY CASCADE;`);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  /**
+   * @param {String} text
+   * @returns {Promise<QueryResult>}
+   */
+  query = async text => {
+    try {
+      return await pool.query(text);
+    } catch (error) {
+      return error;
     }
   };
 }
