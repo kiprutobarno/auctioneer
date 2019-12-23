@@ -8,116 +8,93 @@ pool.on("connect", () => {
   console.log("...connected to database...");
 });
 
-/** Create users table
- * * @returns {Promise}
- */
-const createUsersTable = async () => {
+const create = async (table, statement) => {
   try {
-    await pool.query(
-      `CREATE TABLE IF NOT EXISTS users(id SERIAL PRIMARY KEY, email VARCHAR(50) UNIQUE NOT NULL, password VARCHAR(100) NOT NULL, dateCreated TIMESTAMP, dateModified TIMESTAMP)`
-    );
-    console.log(`....users table successfully created....`);
+    await pool.query(`CREATE TABLE IF NOT EXISTS ${table}(${statement})`);
+    await pool.end();
+    console.log(`....${table} table successfully created....`);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const drop = async table => {
+  try {
+    await pool.query(`DROP TABLE IF EXISTS ${table}`);
+    console.log(`....${table} table successfully dropped....`);
     await pool.end();
   } catch (error) {
     console.log(error);
   }
+};
+
+/** Create users table
+ * * @returns {Promise}
+ */
+
+const createUsersTable = () => {
+  create(
+    "users",
+    "id SERIAL PRIMARY KEY, email VARCHAR(50) UNIQUE NOT NULL, password VARCHAR(100) NOT NULL, dateCreated TIMESTAMP, dateModified TIMESTAMP"
+  );
 };
 
 /**Drop users table
  ** @returns {Promise}
  */
-const dropUsersTable = async () => {
-  try {
-    await pool.query(`DROP TABLE IF EXISTS users`);
-    console.log(`....users table successfully dropped....`);
-    await pool.end();
-  } catch (error) {
-    console.log(error);
-  }
+const dropUsersTable = () => {
+  drop("users");
 };
 
 /** Create owners table
  * * @returns {Promise}
  */
-const createOwnersTable = async () => {
-  try {
-    await pool.query(
-      `CREATE TABLE IF NOT EXISTS owners(id SERIAL PRIMARY KEY,firstName VARCHAR(50) NOT NULL,lastName VARCHAR(50) NOT NULL, email VARCHAR(50) UNIQUE NOT NULL,createdBy VARCHAR(50) REFERENCES users(email),dateCreated TIMESTAMP,dateModified TIMESTAMP)`
-    );
-    console.log(`....owners table successfully created....`);
-    await pool.end();
-  } catch (error) {
-    console.log(error);
-  }
+const createOwnersTable = () => {
+  create(
+    "owners",
+    "id SERIAL PRIMARY KEY,firstName VARCHAR(50) NOT NULL,lastName VARCHAR(50) NOT NULL, email VARCHAR(50) UNIQUE NOT NULL,createdBy VARCHAR(50) REFERENCES users(email),dateCreated TIMESTAMP,dateModified TIMESTAMP"
+  );
 };
 
 /**
  * * @returns {Promise}
  */
-const dropOwnersTable = async () => {
-  try {
-    await pool.query(`DROP TABLE IF EXISTS owners`);
-    console.log(`....owners table successfully dropped....`);
-    await pool.end();
-  } catch (error) {
-    console.log(error);
-  }
+const dropOwnersTable = () => {
+  drop("owners");
 };
 
 /** Create owners table
  * * @returns {Promise}
  */
-const createCategoriesTable = async () => {
-  try {
-    await pool.query(
-      `CREATE TABLE IF NOT EXISTS categories(id SERIAL PRIMARY KEY,categoryName VARCHAR(50) NOT NULL,createdBy INTEGER REFERENCES users(id),dateCreated TIMESTAMP, dateModified TIMESTAMP)`
-    );
-    console.log(`....categories table successfully created....`);
-    await pool.end();
-  } catch (error) {
-    console.log(error);
-  }
+const createCategoriesTable = () => {
+  create(
+    "categories",
+    "id SERIAL PRIMARY KEY,categoryName VARCHAR(50) NOT NULL,createdBy INTEGER REFERENCES users(id),dateCreated TIMESTAMP, dateModified TIMESTAMP"
+  );
 };
 
 /**
  * * @returns {Promise}
  */
-const dropCategoriesTable = async () => {
-  try {
-    await pool.query(`DROP TABLE IF EXISTS categories`);
-    console.log(`....categories table successfully dropped....`);
-    await pool.end();
-  } catch (error) {
-    console.log(error);
-  }
+const dropCategoriesTable = () => {
+  drop("categories");
 };
 
 /** Create items table
  * * @returns {Promise}
  */
-const createItemsTable = async () => {
-  try {
-    await pool.query(
-      `CREATE TABLE IF NOT EXISTS items(id SERIAL PRIMARY KEY,categoryId INTEGER REFERENCES categories(id),ownerId INTEGER REFERENCES owners(id),itemName VARCHAR(50) NOT NULL,createdBy INTEGER REFERENCES users(id),dateCreated TIMESTAMP,dateModified TIMESTAMP)`
-    );
-    console.log(`....items table successfully created....`);
-    await pool.end();
-  } catch (error) {
-    console.log(error);
-  }
+const createItemsTable = () => {
+  create(
+    "items",
+    "id SERIAL PRIMARY KEY,categoryId INTEGER REFERENCES categories(id),ownerId INTEGER REFERENCES owners(id),itemName VARCHAR(50) NOT NULL,createdBy INTEGER REFERENCES users(id),dateCreated TIMESTAMP,dateModified TIMESTAMP"
+  );
 };
 
 /**
  * * @returns {Promise}
  */
-const dropItemsTable = async () => {
-  try {
-    await pool.query(`DROP TABLE IF EXISTS items`);
-    console.log(`....items table successfully dropped....`);
-    await pool.end();
-  } catch (error) {
-    console.log(error);
-  }
+const dropItemsTable = () => {
+  drop("items");
 };
 
 module.exports = {
