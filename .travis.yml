@@ -31,8 +31,8 @@ cache:
   directories:
     - "node_modules"
 
-branches:
-  only:
-    - development
+# branches:
+#   only:
+#     - development
 
 after_success: npm run coverage
