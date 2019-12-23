@@ -4,7 +4,7 @@
   "description": "This is a repo for Auctioneer application backend",
   "main": "app.js",
   "scripts": {
-    "test": "export NODE_ENV=test && mocha --recursive --require @babel/register --require @babel/polyfill --exit ./test/*.test.js --timeout 3000",
+    "test": "export NODE_ENV=test && nyc mocha --recursive --require @babel/register --require @babel/polyfill --exit ./test/*.test.js --timeout 3000",
     "start": "nodemon --require @babel/register --require @babel/register ./app.js"
   },
   "repository": {
@@ -30,6 +30,7 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.19.1",
     "mocha": "^6.2.2",
+    "nyc": "^15.0.0",
     "prettier": "^1.19.1"
   },
   "dependencies": {
