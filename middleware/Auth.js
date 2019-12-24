@@ -26,8 +26,8 @@ class Auth {
    * @param {String} password
    * @returns {String}
    */
-  hashPassword = password => {
-    return bcrypt.hashSync(password, 10);
+  hashPassword = async password => {
+    return await bcrypt.hashSync(password, bcrypt.genSaltSync(10));
   };
 
   /**
