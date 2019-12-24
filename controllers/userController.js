@@ -64,9 +64,12 @@ class Users {
     }
     try {
       const { rows } = await db.query(user.getUser(email));
+      console.log(rows);
       if (!rows[0]) {
         response.errorMessage(res, 401, "Email not registered");
-      } else if (!auth.comparePassword(password, rows[0].password)) {
+      } else if (
+        (await auth.comparePassword(password, rows[0].password)) === false
+      ) {
         response.errorMessage(res, 401, "Wrong password");
       } else {
         response.successWithData(res, 200, {
