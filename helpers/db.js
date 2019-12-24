@@ -11,21 +11,17 @@ class Database {
   create = async (table, statement) => {
     try {
       await pool.query(`CREATE TABLE IF NOT EXISTS ${table}(${statement})`);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   /** Drop table function
    * * @returns {Promise}
    */
-  drop = async table => {
-    try {
-      await pool.query(`DROP TABLE IF EXISTS ${table}`);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // drop = async table => {
+  //   try {
+  //     await pool.query(`DROP TABLE IF EXISTS ${table} CASCADE`);
+  //   } catch (error) {}
+  // };
   /** Create users table
    * * @returns {Promise}
    */
@@ -39,9 +35,10 @@ class Database {
   /**Drop users table
    ** @returns {Promise}
    */
-  dropUsersTable = async () => {
-    await this.drop("users");
-  };
+
+  // dropUsersTable = async () => {
+  //   await this.drop("users");
+  // };
 
   /** Create owners table
    * * @returns {Promise}
@@ -56,9 +53,9 @@ class Database {
   /**
    * * @returns {Promise}
    */
-  dropOwnersTable = async () => {
-    this.drop("owners");
-  };
+  // dropOwnersTable = async () => {
+  //   this.drop("owners");
+  // };
 
   /** Create owners table
    * * @returns {Promise}
@@ -73,9 +70,9 @@ class Database {
   /**
    * * @returns {Promise}
    */
-  dropCategoriesTable = async () => {
-    await this.drop("categories");
-  };
+  // dropCategoriesTable = async () => {
+  //   await this.drop("categories");
+  // };
 
   /** Create items table
    * * @returns {Promise}
@@ -90,20 +87,18 @@ class Database {
   /**
    * * @returns {Promise}
    */
-  dropItemsTable = async () => {
-    await this.drop("items");
-  };
+  // dropItemsTable = async () => {
+  //   await this.drop("items");
+  // };
 
   /**
    * Truncate the database table
    * @returns {Promise}
    */
-  clear = async () => {
+  clear = async table => {
     try {
-      return await pool.query(`TRUNCATE users RESTART IDENTITY CASCADE;`);
-    } catch (error) {
-      console.log(error);
-    }
+      return await pool.query(`TRUNCATE ${table} RESTART IDENTITY CASCADE;`);
+    } catch (error) {}
   };
 
   /**
@@ -113,9 +108,7 @@ class Database {
   query = async text => {
     try {
       return await pool.query(text);
-    } catch (error) {
-      return error;
-    }
+    } catch (error) {}
   };
 }
 

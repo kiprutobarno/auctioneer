@@ -41,11 +41,7 @@ class Users {
           user: rows[0]
         });
       }
-    } catch (error) {
-      if (error.routine === "_bt_check_unique") {
-        response.errorMessage(res, 409, "Email already registered");
-      }
-    }
+    } catch (error) {}
   };
 
   /**
@@ -63,7 +59,6 @@ class Users {
       response.errorMessage(res, 400, "Invalid email address");
     }
     try {
-      console.log(rows);
       const { rows } = await db.query(user.getUser(email));
       if (!rows[0]) {
         response.errorMessage(res, 401, "Email not registered");
@@ -76,9 +71,7 @@ class Users {
           token: auth.generateJsonWebToken(rows[0].id, rows[0].email)
         });
       }
-    } catch (error) {
-      response.errorMessage(res, 400, error);
-    }
+    } catch (error) {}
   };
 }
 const users = new Users();
