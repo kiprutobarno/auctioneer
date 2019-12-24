@@ -5,7 +5,9 @@ class ApiResponse {
    * @param {String} message
    */
   successMessage = (response, code, message) => {
-    return response.status(code).send({ status: code, message: message });
+    try {
+      return response.status(code).send({ status: code, message: message });
+    } catch (error) {}
   };
 
   /**
@@ -14,7 +16,9 @@ class ApiResponse {
    * @param {String} message
    */
   errorMessage = (response, code, message) => {
-    return response.status(code).send({ status: code, message: message });
+    try {
+      return response.status(code).send({ status: code, message: message });
+    } catch (error) {}
   };
 
   /**
@@ -24,9 +28,11 @@ class ApiResponse {
    *  @param {JSON} data
    */
   successWithData = (response, code, data) => {
-    return response.status(code).send(data);
+    try {
+      return response.status(code).send(data);
+    } catch (error) {}
   };
 }
 
 const response = new ApiResponse();
-export default response
+export default response;

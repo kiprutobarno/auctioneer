@@ -20,7 +20,7 @@ class Owners {
       response.errorMessage(res, 400, "Some values are missing");
     }
     if (!validator.isEmailValid(email)) {
-      response.errorMessage(res, 400, "Please enter a valid email");
+      await response.errorMessage(res, 400, "Please enter a valid email");
     }
     try {
       let { rows } = await db.query(owner.getOwner(email));
@@ -44,9 +44,7 @@ class Owners {
           owner: rows[0]
         });
       }
-    } catch (error) {
-      response.errorMessage(res, 400, error);
-    }
+    } catch (error) {}
   };
 
   getOwners = async (req, res) => {
@@ -60,9 +58,7 @@ class Owners {
         message: "Success",
         owners: rows
       });
-    } catch (error) {
-      response.errorMessage(res, 400, error);
-    }
+    } catch (error) {}
   };
 }
 

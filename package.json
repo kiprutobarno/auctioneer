@@ -4,7 +4,7 @@
   "description": "This is a repo for Auctioneer application backend",
   "main": "app.js",
   "scripts": {
-    "test": "export NODE_ENV=test && nyc --reporter=html --reporter=text mocha --recursive --require @babel/register --require @babel/polyfill --exit ./test/*.test.js --timeout 3000",
+    "test": "export NODE_ENV=test && nyc --reporter=html --reporter=text mocha --recursive --require @babel/register --require @babel/polyfill --exit ./test/* --timeout 6000",
     "start": "nodemon --require @babel/register --require @babel/register ./app.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
