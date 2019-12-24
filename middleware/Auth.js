@@ -26,16 +26,16 @@ class Auth {
    * @param {String} password
    * @returns {String}
    */
-  hashPassword = async password => {
-    return await bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+  hashPassword = password => {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
   };
 
   /**
    * @param {String} password
    * @param {String} hashedPassword
    */
-  comparePassword = async (password, hashedPassword) => {
-    return await bcrypt.compareSync(password, hashedPassword);
+  comparePassword = (password, hashedPassword) => {
+    return bcrypt.compareSync(password, hashedPassword);
   };
 
   /**
